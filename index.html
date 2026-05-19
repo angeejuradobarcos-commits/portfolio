@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANGEE JB — Portfolio Creativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #dc2626;
+      --red-dark: #b91c1c;
+      --red-deep: #7f1d1d;
+      --black: #000000;
+      --surface: #111111;
+      --border: rgba(127, 29, 29, 0.25);
+      --text: #ffffff;
+      --muted: #a3a3a3;
+      --dim: #525252;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* NOISE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* RADIAL BG */
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 10%, rgba(127,29,29,0.3) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(220,38,38,0.4);
+    }
+
+    /* Fallback logo si no hay imagen */
+    .logo-fallback {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red-deep), var(--red));
+      border: 1px solid rgba(220,38,38,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      color: white;
+    }
+
+    .logo-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .logo-sub {
+      color: var(--red);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    nav a {
+      color: #d4d4d4;
+      text-decoration: none;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--red); }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: white;
+      transition: all 0.3s;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: rgba(0,0,0,0.98);
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      gap: 1.25rem;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav a {
+      color: #d4d4d4;
+      text-decoration: none;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      transition: color 0.2s;
+    }
+
+    .mobile-nav a:hover { color: var(--red); }
+
+    /* SECTIONS */
+    section, .hero {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      font-size: 0.7rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 0.92;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-title .accent { color: var(--red); }
+
+    .hero-desc {
+      color: #d4d4d4;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      background: var(--red);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 1rem 2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(127,29,29,0.5);
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-outline:hover { background: var(--red); transform: translateY(-2px); }
+
+    .hero-image-wrap {
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background: rgba(220,38,38,0.18);
+      filter: blur(60px);
+      border-radius: 50%;
+    }
+
+    .hero-image-frame {
+      position: relative;
+      border-radius: 2rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    }
+
+    .hero-image-frame img {
+      width: 100%;
+      height: 620px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* SOBRE MÍ */
+    .sobre {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 0.95;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .sobre-text {
+      color: #d4d4d4;
+      line-height: 1.8;
+      font-size: 1rem;
+      font-weight: 300;
+      margin-bottom: 1.25rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .skill-card {
+      border-radius: 1.5rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 1.75rem;
+      transition: transform 0.3s;
+    }
+
+    .skill-card:hover { transform: translateY(-6px); }
+
+    .skill-card p {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    /* PROYECTOS */
+    .proyectos {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+
+    .project-card {
+      border-radius: 2rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: transform 0.4s;
+    }
+
+    .project-card:hover { transform: translateY(-8px); }
+
+    .project-img-wrap { overflow: hidden; }
+
+    .project-img-wrap img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s;
+    }
+
+    .project-card:hover .project-img-wrap img { transform: scale(1.08); }
+
+    .project-info { padding: 1.75rem; }
+
+    .project-cat {
+      color: var(--red);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+    }
+
+    /* HERRAMIENTAS */
+    .herramientas {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .tools-box {
+      border-radius: 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 3rem;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .tool-item {
+      border-radius: 1rem;
+      background: var(--black);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      text-align: center;
+      font-size: 0.9rem;
+      cursor: default;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .tool-item:hover { background: var(--red); transform: translateY(-3px); }
+
+    /* CONTACTO */
+    .contacto {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+
+    .contacto-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      margin-bottom: 2rem;
+    }
+
+    .contacto-title .accent { color: var(--red); }
+
+    .contacto-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--dim);
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* FADE-IN ANIMATION */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+
+      .hero, .sobre {
+        grid-template-columns: 1fr;
+        padding: 4rem 1.5rem;
+        gap: 2.5rem;
+      }
+
+      .hero-image-frame img { height: 380px; }
+
+      .projects-grid { grid-template-columns: 1fr; }
+
+      .tools-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .tools-grid { grid-template-columns: 1fr 1fr; }
+      .contacto-title { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo-group">
+      <!-- Reemplaza src con tu imagen real: <img class="logo-img" src="PERFIL-LOGO-pequeño.png" alt="Logo"> -->
+      <div class="logo-fallback">AJB</div>
+      <div>
+        <div class="logo-name">ANGEE JB</div>
+        <div class="logo-sub">Diseño &amp; Contenido</div>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#sobre">Sobre mí</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#herramientas">Herramientas</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#inicio" onclick="closeMenu()">Inicio</a>
+    <a href="#sobre" onclick="closeMenu()">Sobre mí</a>
+    <a href="#proyectos" onclick="closeMenu()">Proyectos</a>
+    <a href="#herramientas" onclick="closeMenu()">Herramientas</a>
+    <a href="#contacto" onclick="closeMenu()">Contacto</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div id="inicio" class="hero">
+  <div class="fade-in">
+    <p class="eyebrow">Diseñadora &amp; Creadora Digital</p>
+    <h1 class="hero-title">
+      Transformo ideas<br>
+      en historias<br>
+      <span class="accent">visuales.</span>
+    </h1>
+    <p class="hero-desc">
+      Diseño contenido visual moderno enfocado en redes sociales, animación,
+      ilustración y creatividad asistida con IA.
+    </p>
+    <div class="btn-group">
+      <a href="#proyectos" class="btn-primary">Ver proyectos</a>
+      <a href="#sobre" class="btn-outline">Conoce más</a>
+    </div>
+  </div>
+
+  <div class="hero-image-wrap fade-in">
+    <div class="hero-glow"></div>
+    <div class="hero-image-frame">
+      <img
+        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+        alt="Creative workspace"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- SOBRE MÍ -->
+<section id="sobre">
+  <div class="sobre">
+    <div class="fade-in">
+      <p class="eyebrow">Sobre mí</p>
+      <h2 class="section-title">Creatividad<br>con propósito.</h2>
+      <p class="sobre-text">
+        Soy diseñadora y creadora digital enfocada en transformar conceptos en
+        contenido visual impactante.
+      </p>
+      <p class="sobre-text" style="color: var(--muted);">
+        Combino diseño, ilustración, animación y herramientas de inteligencia
+        artificial para crear piezas modernas, dinámicas y memorables.
+      </p>
+    </div>
+
+    <div class="skills-grid fade-in">
+      <div class="skill-card"><p>Diseño para Redes</p></div>
+      <div class="skill-card"><p>Animación</p></div>
+      <div class="skill-card"><p>Ilustración</p></div>
+      <div class="skill-card"><p>Contenido IA</p></div>
+      <div class="skill-card"><p>Dirección Creativa</p></div>
+      <div class="skill-card"><p>Motion Graphics</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos">
+  <div class="proyectos">
+    <div class="fade-in">
+      <p class="eyebrow">Proyectos</p>
+      <h2 class="section-title">Contenido visual<br>que conecta.</h2>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="project-card fade-in">
+        <div class="project-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=1200&auto=format&fit=crop"
+            alt="Diseño para Redes"
+          />
+        </div>
+        <div class="project-info">
+          <p class="project-cat">Contenido Visual</p>
+          <h3 class="project-title">Diseño para Redes</h3>
+          <!-- Cambia el href por el enlace real de tu proyecto -->
+          <a href="#" class="btn-primary" style="font-size:0.85rem; padding:0.75rem 1.5rem;">Ver más</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop"
+            alt="Animación & Motion"
+          />
+        </div>
+        <div class="project-info">
+          <p class="project-cat">Motion Graphics</p>
+          <h3 class="project-title">Animación &amp; Motion</h3>
+          <a href="#" class="btn-primary" style="font-size:0.85rem; padding:0.75rem 1.5rem;">Ver más</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+            alt="Ilustración Digital"
+          />
+        </div>
+        <div class="project-info">
+          <p class="project-cat">Arte Visual</p>
+          <h3 class="project-title">Ilustración Digital</h3>
+          <a href="#" class="btn-primary" style="font-size:0.85rem; padding:0.75rem 1.5rem;">Ver más</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HERRAMIENTAS -->
+<section id="herramientas">
+  <div class="herramientas">
+    <div class="tools-box fade-in">
+      <p class="eyebrow">Herramientas</p>
+      <h2 class="section-title">Software &amp; Workflow</h2>
+      <div class="tools-grid">
+        <div class="tool-item">Photoshop</div>
+        <div class="tool-item">Illustrator</div>
+        <div class="tool-item">After Effects</div>
+        <div class="tool-item">Blender</div>
+        <div class="tool-item">Clip Studio</div>
+        <div class="tool-item">Canva</div>
+        <div class="tool-item">Figma</div>
+        <div class="tool-item">IA Generativa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="contacto fade-in">
+    <p class="eyebrow">Contacto</p>
+    <h2 class="contacto-title">
+      Diseñemos algo<br>
+      <span class="accent">diferente.</span>
+    </h2>
+    <p class="contacto-desc">
+      Disponible para proyectos creativos, diseño visual, contenido digital y
+      colaboraciones.
+    </p>
+    <!-- Cambia el correo por el tuyo real -->
+    <a href="mailto:angee@email.com" class="btn-primary" style="font-size:1rem; padding:1.1rem 2.5rem;">
+      Hablemos
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 ANGEE JB — Portfolio Creativo
+</footer>
+
+<script>
+  // HAMBURGER MENU
+  function toggleMenu() {
+    document.getElementById('mobileNav').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileNav').classList.remove('open');
+  }
+
+  // SCROLL FADE-IN
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
