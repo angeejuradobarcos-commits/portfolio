@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diseño para Redes — ANGEE JB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #dc2626;
+      --red-dark: #b91c1c;
+      --red-deep: #7f1d1d;
+      --black: #000000;
+      --surface: #111111;
+      --border: rgba(127, 29, 29, 0.25);
+      --text: #ffffff;
+      --muted: #a3a3a3;
+      --dim: #525252;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 10%, rgba(127,29,29,0.3) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: white;
+    }
+
+    .logo-fallback {
+
+    .logo-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover { color: var(--red); }
+
+    .logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(220,38,38,0.4);
+    }
+
+    /* HERO */
+    .page-hero {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      font-size: 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.92;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .page-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 600px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* DIVIDER */
+    .divider {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* SECTIONS */
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* PERFILES GRID */
+    .perfiles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .perfil-card {
+      border-radius: 1.5rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: transform 0.3s;
+    }
+
+    .perfil-card:hover { transform: translateY(-6px); }
+
+    .perfil-card img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* CAROUSEL GRID */
+    .carousel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .carousel-grid img {
+      width: 100%;
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      display: block;
+      transition: transform 0.3s;
+    }
+
+    .carousel-grid img:hover { transform: scale(1.02); }
+
+    /* VENTAS GRID */
+    .ventas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .ventas-grid img {
+      width: 100%;
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      display: block;
+      transition: transform 0.3s;
+    }
+
+    .ventas-grid img:hover { transform: scale(1.02); }
+
+    .flayer-full img {
+      width: 100%;
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      display: block;
+      margin-top: 1.5rem;
+    }
+
+    /* VIDEOS */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .video-card {
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform 0.3s;
+    }
+
+    .video-card:hover { transform: translateY(-4px); }
+
+    .video-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-icon svg { width: 20px; height: 20px; fill: white; }
+
+    .video-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    .video-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 999px;
+      background: var(--red);
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: background 0.2s;
+      align-self: flex-start;
+    }
+
+    .btn-link:hover { background: var(--red-dark); }
+
+    /* IA SECTION */
+    .ia-intro {
+      border-radius: 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 3rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ia-intro::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(220,38,38,0.2), transparent 70%);
+      border-radius: 50%;
+    }
+
+    .ia-intro p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+      font-weight: 300;
+      max-width: 640px;
+    }
+
+    .ia-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .tiktok-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .tiktok-card {
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform 0.3s;
+    }
+
+    .tiktok-card:hover { transform: translateY(-4px); }
+
+    .tiktok-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(220,38,38,0.15);
+      border: 1px solid rgba(220,38,38,0.3);
+      border-radius: 999px;
+      padding: 0.3rem 0.75rem;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--red);
+      align-self: flex-start;
+    }
+
+    .tiktok-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: rgba(255,255,255,0.08);
+      line-height: 1;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--dim);
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .perfiles-grid { grid-template-columns: 1fr; }
+      .carousel-grid { grid-template-columns: 1fr; }
+      .ventas-grid { grid-template-columns: 1fr 1fr; }
+      .videos-grid { grid-template-columns: 1fr; }
+      .tiktok-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .ventas-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-group">
+      <img class="logo-img" src="PERFIL-LOGO-pequeño.png" alt="Logo ANGEE JB" />
+      <div class="logo-name">ANGEE JB</div>
+    </a>
+    <a href="index.html" class="back-btn">
+      ← Volver al portfolio
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="page-hero fade-in">
+  <p class="eyebrow">Proyecto — Contenido Visual</p>
+  <h1 class="page-title">Creación de<br>Contenido</h1>
+  <p class="page-desc">
+    Experiencia en diseño y edición de contenido para redes sociales: perfiles, carruseles,
+    piezas promocionales, videos y contenido creado con inteligencia artificial.
+  </p>
+</div>
+
+<div class="divider"></div>
+
+<!-- PERFILES -->
+<div class="section fade-in">
+  <div class="section-label">Diseño de Perfiles</div>
+  <div class="perfiles-grid">
+    <div class="perfil-card">
+      <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/adriana.png" alt="Perfil Adriana" />
+    </div>
+    <div class="perfil-card">
+      <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/angela.png" alt="Perfil Angela" />
+    </div>
+    <div class="perfil-card">
+      <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/renier.png" alt="Perfil Renier" />
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CARRUSEL -->
+<div class="section fade-in">
+  <div class="section-label">Carrusel</div>
+  <div class="carousel-grid">
+    <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/foto-1.png" alt="Carrusel 1" />
+    <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/foto-4.png" alt="Carrusel 2" />
+    <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/foto-5.png" alt="Carrusel 3" />
+    <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/foto-6.png" alt="Carrusel 4" />
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- VENTAS -->
+<div class="section fade-in">
+  <div class="section-label">Ventas y Promociones</div>
+  <div class="ventas-grid">
+    <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/aliexpress.png" alt="AliExpress" />
+    <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/aviso-aliexpress.png" alt="Aviso AliExpress" />
+    <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/aviso-importante.png" alt="Aviso importante" />
+  </div>
+  <div class="flayer-full">
+    <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/04/flayer-climatizacion.png" alt="Flayer Climatización" />
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- VIDEOS -->
+<div class="section fade-in">
+  <div class="section-label">Videos en Redes</div>
+  <div class="videos-grid">
+
+    <div class="video-card">
+      <div class="video-icon">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="video-label">Google Drive</div>
+      <div class="video-title">Video para redes — 01</div>
+      <a href="https://drive.google.com/file/d/1kQ4IM9uDjAJF9YlR7XXHfZ4UWG0xceon/view" target="_blank" class="btn-link">
+        Ver video ↗
+      </a>
+    </div>
+
+    <div class="video-card">
+      <div class="video-icon">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="video-label">Google Drive</div>
+      <div class="video-title">Video para redes — 02</div>
+      <a href="https://drive.google.com/file/d/1aiMdVOGl9KNhzAzNF6wbewgbMFzTdpKZ/view" target="_blank" class="btn-link">
+        Ver video ↗
+      </a>
+    </div>
+
+    <div class="video-card">
+      <div class="video-icon">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="video-label">Google Drive</div>
+      <div class="video-title">Video para redes — 03</div>
+      <a href="https://drive.google.com/file/d/1Ho0orKBWkEaXlrBKsevl0SfEkaQVWhbR/view" target="_blank" class="btn-link">
+        Ver video ↗
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTENIDO CON IA -->
+<div class="section fade-in">
+  <div class="section-label">Contenido con IA</div>
+
+  <div class="ia-intro">
+    <div class="ia-title">Videos generados con Inteligencia Artificial</div>
+    <p>
+      Creación de contenido visual asistido por IA, publicado en TikTok bajo el perfil
+      <strong style="color:white;">@nyxcode_ia</strong>. Producción de videos con herramientas
+      de generación de imágenes y video mediante prompts creativos.
+    </p>
+  </div>
+
+  <div class="tiktok-grid">
+
+    <div class="tiktok-card">
+      <div class="tiktok-num">01</div>
+      <div class="tiktok-badge">TikTok · IA</div>
+      <div style="font-weight:500; font-size:0.95rem;">Video con IA — 01</div>
+      <div style="color:var(--muted); font-size:0.85rem; font-weight:300;">@nyxcode_ia</div>
+      <a href="https://www.tiktok.com/@nyxcode_ia/video/7388318500592553222" target="_blank" class="btn-link">
+        Ver en TikTok ↗
+      </a>
+    </div>
+
+    <div class="tiktok-card">
+      <div class="tiktok-num">02</div>
+      <div class="tiktok-badge">TikTok · IA</div>
+      <div style="font-weight:500; font-size:0.95rem;">Video con IA — 02</div>
+      <div style="color:var(--muted); font-size:0.85rem; font-weight:300;">@nyxcode_ia</div>
+      <a href="https://www.tiktok.com/@nyxcode_ia/video/7439463395725970743" target="_blank" class="btn-link">
+        Ver en TikTok ↗
+      </a>
+    </div>
+
+    <div class="tiktok-card">
+      <div class="tiktok-num">03</div>
+      <div class="tiktok-badge">TikTok · IA</div>
+      <div style="font-weight:500; font-size:0.95rem;">Video con IA — 03</div>
+      <div style="color:var(--muted); font-size:0.85rem; font-weight:300;">@nyxcode_ia</div>
+      <a href="https://www.tiktok.com/@nyxcode_ia/video/7510442793794325766" target="_blank" class="btn-link">
+        Ver en TikTok ↗
+      </a>
+    </div>
+
+    <div class="tiktok-card">
+      <div class="tiktok-num">04</div>
+      <div class="tiktok-badge">TikTok · IA</div>
+      <div style="font-weight:500; font-size:0.95rem;">Video con IA — 04</div>
+      <div style="color:var(--muted); font-size:0.85rem; font-weight:300;">@nyxcode_ia</div>
+      <a href="https://vm.tiktok.com/ZMA2eNBUK/" target="_blank" class="btn-link">
+        Ver en TikTok ↗
+      </a>
+    </div>
+
+    <div class="tiktok-card">
+      <div class="tiktok-num">05</div>
+      <div class="tiktok-badge">TikTok · IA</div>
+      <div style="font-weight:500; font-size:0.95rem;">Video con IA — 05</div>
+      <div style="color:var(--muted); font-size:0.85rem; font-weight:300;">@nyxcode_ia</div>
+      <a href="https://vm.tiktok.com/ZMA2e6BM3/" target="_blank" class="btn-link">
+        Ver en TikTok ↗
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 ANGEE JB — Portfolio Creativo
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
