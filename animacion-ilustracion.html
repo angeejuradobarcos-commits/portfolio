@@ -193,8 +193,9 @@
       border-radius: 1.75rem;
       border: 1px solid var(--border);
       display: block;
-      max-height: 500px;
-      object-fit: cover;
+      max-height: 480px;
+      object-fit: contain;
+      background: var(--surface);
       margin-bottom: 1.5rem;
     }
 
@@ -207,12 +208,15 @@
 
     .ilus-grid-3 img {
       width: 100%;
+      height: auto;
+      max-height: 320px;
       border-radius: 1.25rem;
       border: 1px solid var(--border);
       background: var(--surface);
       display: block;
       object-fit: contain;
       transition: transform 0.3s;
+      cursor: zoom-in;
     }
 
     .ilus-grid-3 img:hover { transform: scale(1.03); }
@@ -226,18 +230,22 @@
 
     .personajes-grid img {
       width: 100%;
+      height: auto;
+      max-height: 380px;
       border-radius: 1.25rem;
       border: 1px solid var(--border);
       background: var(--surface);
       display: block;
       object-fit: contain;
       transition: transform 0.3s;
+      cursor: zoom-in;
     }
 
     .personajes-grid img:hover { transform: scale(1.03); }
 
     .personajes-grid .full-col {
       grid-column: 1 / -1;
+      max-height: 420px;
     }
 
     /* POSES ROW */
@@ -250,15 +258,150 @@
 
     .poses-row img {
       width: 100%;
+      height: auto;
+      max-height: 360px;
       border-radius: 1.25rem;
       border: 1px solid var(--border);
       background: var(--surface);
       display: block;
       object-fit: contain;
       transition: transform 0.3s;
+      cursor: zoom-in;
     }
 
     .poses-row img:hover { transform: scale(1.03); }
+
+    /* ===== CHARACTER + GAME CARDS ===== */
+    .char-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .char-card {
+      border-radius: 1.5rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .char-card-header {
+      padding: 1.75rem 1.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .char-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .char-badge.elliot { background: linear-gradient(135deg, #374151, #6b7280); }
+    .char-badge.leo    { background: linear-gradient(135deg, #0369a1, #06b6d4); }
+
+    .char-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .char-role {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .char-body {
+      padding: 1.5rem 1.75rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .char-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .char-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .char-tag {
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .char-tag.highlight { border-color: var(--red); color: var(--red); }
+    .char-tag.blue      { border-color: #06b6d4; color: #06b6d4; }
+
+    /* GAME EMBED */
+    .game-embed-wrap {
+      margin: 0 1.75rem 1.75rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      position: relative;
+    }
+
+    .game-embed-wrap iframe {
+      width: 100%;
+      height: 420px;
+      border: none;
+      display: block;
+    }
+
+    .game-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1rem;
+      background: rgba(0,0,0,0.5);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    .game-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse-dot 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
 
     /* VIDEOS GRID */
     .videos-grid {
@@ -355,11 +498,67 @@
       .personajes-grid .full-col { grid-column: 1; }
       .videos-grid { grid-template-columns: 1fr; }
       .poses-row { grid-template-columns: 1fr; }
+      .char-section { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 560px) {
       .ilus-grid-3 { grid-template-columns: 1fr; }
     }
+
+    /* LIGHTBOX */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      cursor: zoom-out;
+    }
+    .lightbox-overlay.active { display: flex; }
+    .lightbox-img-wrap {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      animation: lb-in 0.25s ease;
+    }
+    @keyframes lb-in {
+      from { opacity: 0; transform: scale(0.93); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .lightbox-img-wrap img {
+      display: block;
+      max-width: 90vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 0.75rem;
+      box-shadow: 0 0 80px rgba(0,0,0,0.8);
+      cursor: default;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.5rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: white;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 10001;
+    }
+    .lightbox-close:hover { background: var(--red); }
   </style>
 </head>
 <body>
@@ -413,19 +612,208 @@
 <div class="section fade-in">
   <div class="section-label">Personajes Vectorizados</div>
 
-  <div class="personajes-grid">
+  <!-- Character showcase grid (images only, no games yet) -->
+  <div class="personajes-grid" style="margin-bottom: 2rem;">
     <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/08/elliot-fren.png" alt="Elliot fren" />
     <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/08/elliot-1.png" alt="Elliot 1" />
     <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/08/elliot-8.png" alt="Elliot 8" />
     <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/08/elliot-9.png" alt="Elliot 9" />
-    <img class="full-col" src="https://angeejb4.wordpress.com/wp-content/uploads/2025/08/gato-azul-3.png" alt="Gato azul" />
+    <img class="full-col" src="https://angeejb4.wordpress.com/wp-content/uploads/2025/08/gato-azul-3.png" alt="Gato azul — Leo" />
   </div>
 
-  <div class="poses-row">
+  <!-- Cebollín showcase -->
+  <div style="margin-bottom: 2rem;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:0.08em; color:var(--muted); margin-bottom:1rem;">Cebollín — Expresiones</div>
+    <div class="personajes-grid">
+      <img src="CEBOLLÍN-1.png" alt="Cebollín sonriendo" style="background:#d1d5db;" />
+      <img src="CEBOLLÍN-4.png" alt="Cebollín guiñando" style="background:#d1d5db;" />
+      <img class="full-col" src="CEBOLLÍN-5.png" alt="Cebollín bebé" style="background:#d1d5db;" />
+    </div>
+  </div>
+
+  <div class="poses-row" style="margin-bottom: 3rem;">
     <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/08/pose-1.png" alt="Pose 1" />
     <img src="https://angeejb4.wordpress.com/wp-content/uploads/2025/08/pose2.png" alt="Pose 2" />
   </div>
-</div>
+
+  <!-- Divider within section -->
+  <div style="border-top: 1px solid var(--border); margin-bottom: 3rem;"></div>
+
+  <!-- Character + Game section label -->
+  <div class="section-label" style="font-size:1.5rem; margin-bottom: 1.75rem;">
+    Universo de Personajes — Juegos Interactivos
+  </div>
+  <p style="color:var(--muted); font-size:0.9rem; line-height:1.7; max-width:680px; margin-bottom:2.5rem; font-weight:300;">
+    Estos personajes no solo viven en ilustraciones — también tienen su propio universo jugable. 
+    Cada juego fue creado en <strong style="color:white;">Scratch</strong> y es completamente interactivo. 
+    ¡Pruébalos directamente aquí!
+  </p>
+
+  <div class="char-section">
+
+    <!-- ELLIOT -->
+    <div class="char-card">
+      <div class="char-card-header">
+        <div class="char-badge elliot">EL</div>
+        <div>
+          <div class="char-name">Elliot</div>
+          <div class="char-role">Guardián Protector · Conejo de Peluche</div>
+        </div>
+      </div>
+      <div class="char-body">
+        <p class="char-desc">
+          Elliot es un conejo de peluche gris que a simple vista luce adorable, pero en realidad 
+          es un <strong style="color:white;">guardián espiritual</strong> que protege a los niños 
+          de los monstruos que habitan bajo sus camas. Proviene del Reino de los Guardianes, 
+          un lugar al que solo acceden quienes fueron amables y serviciales en vida.
+        </p>
+        <div class="char-stats">
+          <span class="char-tag highlight">~40 cm</span>
+          <span class="char-tag highlight">~100 años</span>
+          <span class="char-tag">Guerrero silencioso</span>
+          <span class="char-tag">Ente espiritual</span>
+          <span class="char-tag">Cicatriz en mejilla</span>
+        </div>
+      </div>
+      <!-- Controls -->
+      <div style="margin: 0 1.75rem 1.25rem; display:flex; flex-wrap:wrap; gap:0.5rem;">
+        <div style="display:flex;align-items:center;gap:0.5rem;background:#1a1a1a;border:1px solid var(--border);border-radius:0.75rem;padding:0.5rem 0.85rem;font-size:0.75rem;color:var(--muted);">
+          <span style="font-size:1rem;">🕹️</span>
+          <span><strong style="color:white;">↑ ↓ ← →</strong> Moverse</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;background:#1a1a1a;border:1px solid var(--border);border-radius:0.75rem;padding:0.5rem 0.85rem;font-size:0.75rem;color:var(--muted);">
+          <span style="background:#333;border:1px solid #555;border-radius:4px;padding:0.1rem 0.5rem;color:white;font-family:monospace;font-size:0.72rem;">SPACE</span>
+          <span>Disparar</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;background:#1a1a1a;border:1px solid var(--border);border-radius:0.75rem;padding:0.5rem 0.85rem;font-size:0.75rem;color:var(--muted);">
+          <span style="background:#333;border:1px solid #555;border-radius:4px;padding:0.1rem 0.5rem;color:white;font-family:monospace;font-size:0.72rem;">B</span>
+          <span>Aro protector</span>
+        </div>
+      </div>
+      <div class="game-embed-wrap">
+        <iframe
+          src="COCO_KINGDOM_GAME.html"
+          title="Juego de Elliot — Coco Kingdom"
+          allow="autoplay; fullscreen"
+          scrolling="no"
+          loading="lazy"
+        ></iframe>
+        <div class="game-label">
+          <span class="game-dot"></span>
+          Juego interactivo · Coco Kingdom · Hecho en Scratch
+        </div>
+      </div>
+    </div>
+
+    <!-- LEO -->
+    <div class="char-card">
+      <div class="char-card-header">
+        <div class="char-badge leo">LO</div>
+        <div>
+          <div class="char-name">Leo</div>
+          <div class="char-role">Defensor del Aprendizaje · Gato Azul</div>
+        </div>
+      </div>
+      <div class="char-body">
+        <p class="char-desc">
+          Leo es un gato azul con una misión clara: <strong style="color:white;">graduarse</strong> 
+          sin importar los obstáculos. Su mayor enemigo no es un villano de caricatura — es 
+          la pereza misma. Con su chaqueta universitaria y determinación infinita, Leo recorre 
+          niveles llenos de distracciones, trampas y tentaciones para alcanzar su diploma.
+        </p>
+        <div class="char-stats">
+          <span class="char-tag blue">Estudiante</span>
+          <span class="char-tag blue">Anti-pereza</span>
+          <span class="char-tag">Chaqueta universitaria</span>
+          <span class="char-tag">Botas azules</span>
+          <span class="char-tag">Bigotes finos</span>
+        </div>
+      </div>
+      <div class="game-embed-wrap">
+        <iframe
+          src="AVENTURAS_DE_LEO.html"
+          title="Juego de Leo — Aventuras de Leo"
+          allow="autoplay; fullscreen"
+          scrolling="no"
+          loading="lazy"
+        ></iframe>
+        <div class="game-label">
+          <span class="game-dot" style="background:#06b6d4;"></span>
+          Juego interactivo · Aventuras de Leo · Hecho en Scratch
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end char-section (Elliot + Leo) -->
+
+  <!-- CEBOLLÍN — full width card -->
+  <div style="margin-top: 2rem;">
+    <div class="char-card" style="display:block;">
+
+      <div class="char-card-header">
+        <div class="char-badge" style="background: linear-gradient(135deg, #166534, #4ade80); font-size:1rem;">CB</div>
+        <div>
+          <div class="char-name">Cebollín</div>
+          <div class="char-role">Amante de la Animación · Protagonista de Corto</div>
+        </div>
+      </div>
+
+      <div class="char-body">
+        <p class="char-desc">
+          Cebollín es un pequeño cebollín tierno y expresivo que sueña con estudiar animación. 
+          Con su cuerpo blanco, sus hojitas verdes y sus mejillas rosadas, tiene una personalidad 
+          enorme para su tamaño. Protagoniza un <strong style="color:white;">corto animado</strong> 
+          donde enfrenta dudas, monstruos imaginarios y sus propios miedos para perseguir lo que ama: 
+          el mundo de la animación.
+        </p>
+        <div class="char-stats">
+          <span class="char-tag" style="border-color:#4ade80; color:#4ade80;">Cebollín</span>
+          <span class="char-tag" style="border-color:#4ade80; color:#4ade80;">Soñador</span>
+          <span class="char-tag">Mejillas rosadas</span>
+          <span class="char-tag">Hojitas verdes</span>
+          <span class="char-tag">Múltiples expresiones</span>
+          <span class="char-tag">Corto animado</span>
+        </div>
+      </div>
+
+      <!-- Video + Storyboard side by side -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; padding: 0 1.75rem 1.75rem;">
+
+        <!-- Video -->
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:0.08em; color:var(--muted); margin-bottom:0.75rem;">Corto Animado</div>
+          <div style="border-radius:1rem; overflow:hidden; border:1px solid var(--border); background:#000;">
+            <iframe
+              src="https://drive.google.com/file/d/1SWwCssqizaUtQtTqC8K0t-SKTau-dfA0/preview"
+              width="100%"
+              height="280"
+              allow="autoplay; fullscreen"
+              style="border:none; display:block;"
+              loading="lazy"
+            ></iframe>
+            <div class="game-label">
+              <span class="game-dot" style="background:#4ade80;"></span>
+              Animación 2D · Cebollín · Google Drive
+            </div>
+          </div>
+        </div>
+
+        <!-- Storyboard -->
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:0.08em; color:var(--muted); margin-bottom:0.75rem;">Storyboard del Proceso</div>
+          <img
+            src="STORYBOARD_FINAL_CEBOLLÍN.png"
+            alt="Storyboard Cebollín"
+            style="width:100%; height:280px; object-fit:contain; border-radius:1rem; border:1px solid var(--border); background:var(--surface); display:block; cursor:zoom-in;"
+          />
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end personajes section -->
 
 <div class="divider"></div>
 
@@ -491,14 +879,47 @@
   © 2026 ANGEE JB — Portfolio Creativo
 </footer>
 
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close">✕</button>
+  <div class="lightbox-img-wrap">
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+</div>
+
 <script>
+  // Fade-in observer
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.1 });
-
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Lightbox
+  const overlay = document.getElementById('lightbox');
+  const lbImg   = document.getElementById('lightbox-img');
+  const lbClose = document.getElementById('lightbox-close');
+
+  document.querySelectorAll('img[style*="zoom-in"], .ilus-grid-3 img, .personajes-grid img, .poses-row img, .hero-img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 
 </body>
