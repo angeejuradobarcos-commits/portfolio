@@ -217,7 +217,7 @@
 
     .perfil-card img {
       width: 100%;
-      height: 260px;
+      height: 180px;
       object-fit: cover;
       object-position: top;
       display: block;
@@ -485,6 +485,38 @@
       line-height: 1;
     }
 
+    /* VIDEO EMBED */
+    .video-embed-card {
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .video-embed-card:hover { transform: translateY(-4px); }
+    .video-embed-label {
+      padding: 1rem 1.25rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .video-embed-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+    .video-embed-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
     footer {
       border-top: 1px solid var(--border);
       padding: 2rem;
@@ -682,24 +714,40 @@
     <p class="section-desc">Edición de videos para publicación en redes sociales, enfocados en dinamismo y retención de atención.</p>
   </div>
   <div class="videos-grid">
-    <div class="video-card">
-      <div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <div class="video-label">Google Drive</div>
-      <div class="video-title">Video para redes — 01</div>
-      <a href="https://drive.google.com/file/d/1kQ4IM9uDjAJF9YlR7XXHfZ4UWG0xceon/view" target="_blank" class="btn-link">Ver video ↗</a>
+
+    <div class="video-embed-card">
+      <div class="video-embed-label">Video para redes — 01</div>
+      <div class="video-embed-wrap">
+        <iframe
+          src="https://drive.google.com/file/d/1kQ4IM9uDjAJF9YlR7XXHfZ4UWG0xceon/preview"
+          allow="autoplay"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
-    <div class="video-card">
-      <div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <div class="video-label">Google Drive</div>
-      <div class="video-title">Video para redes — 02</div>
-      <a href="https://drive.google.com/file/d/1aiMdVOGl9KNhzAzNF6wbewgbMFzTdpKZ/view" target="_blank" class="btn-link">Ver video ↗</a>
+
+    <div class="video-embed-card">
+      <div class="video-embed-label">Video para redes — 02</div>
+      <div class="video-embed-wrap">
+        <iframe
+          src="https://drive.google.com/file/d/1aiMdVOGl9KNhzAzNF6wbewgbMFzTdpKZ/preview"
+          allow="autoplay"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
-    <div class="video-card">
-      <div class="video-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <div class="video-label">Google Drive</div>
-      <div class="video-title">Video para redes — 03</div>
-      <a href="https://drive.google.com/file/d/1Ho0orKBWkEaXlrBKsevl0SfEkaQVWhbR/view" target="_blank" class="btn-link">Ver video ↗</a>
+
+    <div class="video-embed-card">
+      <div class="video-embed-label">Video para redes — 03</div>
+      <div class="video-embed-wrap">
+        <iframe
+          src="https://drive.google.com/file/d/1Ho0orKBWkEaXlrBKsevl0SfEkaQVWhbR/preview"
+          allow="autoplay"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
+
   </div>
 </div>
 
