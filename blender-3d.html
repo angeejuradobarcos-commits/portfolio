@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Blender — ANGEE JB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #dc2626;
+      --red-dark: #b91c1c;
+      --red-deep: #7f1d1d;
+      --black: #000000;
+      --surface: #111111;
+      --surface2: #0d0d0d;
+      --border: rgba(127, 29, 29, 0.25);
+      --text: #ffffff;
+      --muted: #a3a3a3;
+      --dim: #525252;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 70% 20%, rgba(127,29,29,0.2) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: white;
+    }
+
+    .logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(220,38,38,0.4);
+    }
+
+    .logo-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--red); }
+
+    /* HERO */
+    .page-hero {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      font-size: 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.92;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .page-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 580px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .trabajos-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      background: rgba(220,38,38,0.1);
+      border: 1px solid rgba(220,38,38,0.3);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--red);
+    }
+
+    .divider {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header { margin-bottom: 2rem; }
+
+    .section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* PROJECT CARD */
+    .project-block {
+      border-radius: 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .project-block:last-child { margin-bottom: 0; }
+
+    /* IMAGEN PRINCIPAL GRANDE */
+    .project-main-img {
+      width: 100%;
+      height: 580px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      border-bottom: 1px solid var(--border);
+      transition: transform 0.6s ease;
+    }
+
+    .project-block:hover .project-main-img { transform: scale(1.02); }
+
+    .img-overflow { overflow: hidden; }
+
+    /* INFO ROW */
+    .project-info-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 2rem;
+      padding: 2rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-nombre {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+
+    .project-subtitulo {
+      color: var(--red);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+
+    .project-descripcion {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.75;
+      font-weight: 300;
+      max-width: 600px;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      white-space: nowrap;
+    }
+
+    .meta-tag.red {
+      border-color: rgba(220,38,38,0.35);
+      color: var(--red);
+      background: rgba(220,38,38,0.08);
+    }
+
+    .btn-artstation {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      background: var(--red);
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-artstation:hover { background: var(--red-dark); transform: translateY(-2px); }
+
+    /* STATS ROW */
+    .project-stats {
+      display: flex;
+      gap: 2rem;
+      padding: 1.25rem 2.5rem;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--dim);
+    }
+
+    .stat-val {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* ARTSTATION PROFILE */
+    .artstation-cta {
+      border-radius: 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .artstation-cta::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(220,38,38,0.12), transparent 70%);
+      border-radius: 50%;
+    }
+
+    .artstation-cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+    }
+
+    .artstation-cta-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 300;
+      max-width: 420px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--dim);
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .project-main-img { height: 360px; }
+      .project-info-row { grid-template-columns: 1fr; gap: 1.25rem; }
+      .project-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      .project-stats { gap: 1.25rem; flex-wrap: wrap; }
+    }
+
+    @media (max-width: 560px) {
+      .project-main-img { height: 260px; }
+      .project-info-row { padding: 1.5rem; }
+      .project-stats { padding: 1rem 1.5rem; }
+      .artstation-cta { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-group">
+      <img class="logo-img" src="PERFIL-LOGO-pequeño.png" alt="Logo ANGEE JB" />
+      <div class="logo-name">ANGEE JB</div>
+    </a>
+    <a href="index.html" class="back-btn">← Volver al portfolio</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="page-hero fade-in">
+  <p class="eyebrow">Proyecto — 3D &amp; Modelado</p>
+  <h1 class="page-title">3D<br>Blender</h1>
+  <p class="page-desc">
+    Modelado, texturizado y render de personajes 3D estilizados en Blender.
+    Cada proyecto explora una identidad visual única, desde personajes infantiles
+    hasta figuras urbanas con actitud.
+  </p>
+  <div class="trabajos-badge">✦ Trabajos realizados</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROYECTOS -->
+<div class="section">
+
+  <!-- PROYECTO 1: BAD CAT -->
+  <div class="project-block fade-in">
+    <div class="img-overflow">
+      <img
+        class="project-main-img"
+        src="https://cdnb.artstation.com/p/assets/images/images/089/613/535/large/hani-jb-bad-cat.jpg?1738439806"
+        alt="The cat that breaks the rules"
+        onerror="this.style.background='#1a1a1a'; this.style.height='300px'; this.removeAttribute('src');"
+      />
+    </div>
+    <div class="project-info-row">
+      <div>
+        <div class="project-subtitulo">Personaje 3D · Urban Style</div>
+        <div class="project-nombre">The Cat That Breaks the Rules</div>
+        <p class="project-descripcion">
+          Bad Cat es un gato urbano estilizado que encarna rebeldía y actitud.
+          Modelado completo en Blender con texturas creadas en Substance 3D Painter.
+          El escenario callejero con iluminación de neón refuerza la personalidad
+          del personaje: independiente, irreverente y con estilo propio.
+        </p>
+      </div>
+      <div class="project-meta">
+        <span class="meta-tag red">Blender</span>
+        <span class="meta-tag">Substance 3D Painter</span>
+        <span class="meta-tag">Character Design</span>
+        <a href="https://www.artstation.com/artwork/P6A2JL" target="_blank" class="btn-artstation">
+          Ver en ArtStation ↗
+        </a>
+      </div>
+    </div>
+    <div class="project-stats">
+      <div class="stat">
+        <span class="stat-label">Personaje</span>
+        <span class="stat-val">Bad Cat</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Estilo</span>
+        <span class="stat-val">Urban / Estilizado</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Software</span>
+        <span class="stat-val">Blender + Substance</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROYECTO 2: PEQUEÑO HÉROE -->
+  <div class="project-block fade-in">
+    <div class="img-overflow">
+      <img
+        class="project-main-img"
+        src="https://cdna.artstation.com/p/assets/images/images/088/265/490/large/hani-jb-pequenoheroe.jpg?1735266476"
+        alt="Pequeño héroe en triciclo"
+        onerror="this.style.background='#1a1a1a'; this.style.height='300px'; this.removeAttribute('src');"
+      />
+    </div>
+    <div class="project-info-row">
+      <div>
+        <div class="project-subtitulo">Personaje 3D · Animación &amp; Rigging</div>
+        <div class="project-nombre">Pequeño Héroe en Triciclo</div>
+        <p class="project-descripcion">
+          Personaje infantil estilizado con triciclo y perrito, creado en Blender
+          con enfoque en animación y rigging. El diseño combina ternura y heroísmo:
+          un niño aventurero listo para cualquier misión, acompañado siempre
+          de su fiel compañero. Proyecto orientado a explorar flujos de trabajo
+          de rigging para animación de personajes.
+        </p>
+      </div>
+      <div class="project-meta">
+        <span class="meta-tag red">Blender</span>
+        <span class="meta-tag">Rigging</span>
+        <span class="meta-tag">Character Animation</span>
+        <a href="https://www.artstation.com/artwork/gRrQbE" target="_blank" class="btn-artstation">
+          Ver en ArtStation ↗
+        </a>
+      </div>
+    </div>
+    <div class="project-stats">
+      <div class="stat">
+        <span class="stat-label">Personaje</span>
+        <span class="stat-val">Niño héroe + perrito</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Estilo</span>
+        <span class="stat-val">Infantil / Cartoon</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Enfoque</span>
+        <span class="stat-val">Rigging &amp; Animación</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Software</span>
+        <span class="stat-val">Blender</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="divider"></div>
+
+<!-- CTA ARTSTATION -->
+<div class="section fade-in">
+  <div class="artstation-cta">
+    <div class="artstation-cta-title">Ver el perfil completo</div>
+    <p class="artstation-cta-desc">
+      Todos los proyectos 3D, actualizaciones y nuevos trabajos están disponibles
+      en ArtStation.
+    </p>
+    <a href="https://www.artstation.com/hanijb222" target="_blank" class="btn-artstation" style="font-size:0.95rem; padding:1rem 2.5rem;">
+      Visitar ArtStation ↗
+    </a>
+  </div>
+</div>
+
+<footer>© 2026 ANGEE JB — Portfolio Creativo</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
