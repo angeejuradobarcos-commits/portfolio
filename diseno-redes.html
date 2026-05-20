@@ -350,8 +350,8 @@
     /* VIDEOS */
     .videos-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
+      grid-template-columns: 1fr;
+      gap: 2rem;
     }
 
     .video-card {
@@ -493,19 +493,43 @@
       overflow: hidden;
       transition: transform 0.3s;
     }
-    .video-embed-card:hover { transform: translateY(-4px); }
+    .video-embed-card:hover { transform: translateY(-3px); }
+    .video-embed-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
     .video-embed-label {
-      padding: 1rem 1.25rem 0.75rem;
       font-size: 0.82rem;
       font-weight: 500;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
+    .video-fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(220,38,38,0.12);
+      border: 1px solid rgba(220,38,38,0.3);
+      color: var(--red);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .video-fullscreen-btn:hover { background: var(--red); color: white; }
     .video-embed-wrap {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      height: 520px;
       background: #000;
     }
     .video-embed-wrap iframe {
@@ -716,35 +740,32 @@
   <div class="videos-grid">
 
     <div class="video-embed-card">
-      <div class="video-embed-label">Video para redes — 01</div>
+      <div class="video-embed-header">
+        <span class="video-embed-label">Video para redes — 01</span>
+        <a class="video-fullscreen-btn" href="https://drive.google.com/file/d/1aiMdVOGl9KNhzAzNF6wbewgbMFzTdpKZ/view" target="_blank">⛶ Ver completo</a>
+      </div>
       <div class="video-embed-wrap">
-        <iframe
-          src="https://drive.google.com/file/d/1kQ4IM9uDjAJF9YlR7XXHfZ4UWG0xceon/preview"
-          allow="autoplay"
-          allowfullscreen
-        ></iframe>
+        <iframe src="https://drive.google.com/file/d/1aiMdVOGl9KNhzAzNF6wbewgbMFzTdpKZ/preview" allow="autoplay" allowfullscreen></iframe>
       </div>
     </div>
 
     <div class="video-embed-card">
-      <div class="video-embed-label">Video para redes — 02</div>
+      <div class="video-embed-header">
+        <span class="video-embed-label">Video para redes — 02</span>
+        <a class="video-fullscreen-btn" href="https://drive.google.com/file/d/1Ho0orKBWkEaXlrBKsevl0SfEkaQVWhbR/view" target="_blank">⛶ Ver completo</a>
+      </div>
       <div class="video-embed-wrap">
-        <iframe
-          src="https://drive.google.com/file/d/1aiMdVOGl9KNhzAzNF6wbewgbMFzTdpKZ/preview"
-          allow="autoplay"
-          allowfullscreen
-        ></iframe>
+        <iframe src="https://drive.google.com/file/d/1Ho0orKBWkEaXlrBKsevl0SfEkaQVWhbR/preview" allow="autoplay" allowfullscreen></iframe>
       </div>
     </div>
 
     <div class="video-embed-card">
-      <div class="video-embed-label">Video para redes — 03</div>
+      <div class="video-embed-header">
+        <span class="video-embed-label">Video para redes — 03</span>
+        <a class="video-fullscreen-btn" href="https://drive.google.com/file/d/1kQ4IM9uDjAJF9YlR7XXHfZ4UWG0xceon/view" target="_blank">⛶ Ver completo</a>
+      </div>
       <div class="video-embed-wrap">
-        <iframe
-          src="https://drive.google.com/file/d/1Ho0orKBWkEaXlrBKsevl0SfEkaQVWhbR/preview"
-          allow="autoplay"
-          allowfullscreen
-        ></iframe>
+        <iframe src="https://drive.google.com/file/d/1kQ4IM9uDjAJF9YlR7XXHfZ4UWG0xceon/preview" allow="autoplay" allowfullscreen></iframe>
       </div>
     </div>
 
